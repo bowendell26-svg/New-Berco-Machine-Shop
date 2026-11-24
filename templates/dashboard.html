@@ -39,26 +39,8 @@
     {% set badge = {'New': 'bg-amber-100 text-amber-800', 'Contacted': 'bg-sky-100 text-sky-800', 'Done': 'bg-green-100
     text-green-800'} %}
 
-    {# ===== TOP BAR: pangalan ng shop at Log out ===== #}
-    <header class="bg-gun-900 border-b border-slate-700/70">
-        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="leading-none">
-                <span class="block font-head font-bold text-xl text-white tracking-wide">NEW BERCO</span>
-                <span class="block text-[10px] tracking-widest text-slate-400">ADMIN DASHBOARD</span>
-            </div>
-            <div class="flex items-center gap-4 text-sm">
-                <a href="{{ url_for('home') }}" target="_blank" class="text-slate-300 hover:text-amber-500">View
-                    website</a>
-                {# Ang logout ay POST na may csrf para hindi ma-logout ng ibang website ang admin #}
-                <form method="post" action="{{ url_for('admin_logout') }}">
-                    <input type="hidden" name="csrf" value="{{ csrf_token() }}" />
-                    <button type="submit"
-                        class="border border-slate-500 hover:border-amber-500 text-white px-3 py-1.5 rounded">Log
-                        out</button>
-                </form>
-            </div>
-        </div>
-    </header>
+    {# ===== TOP BAR at mga mensahe: galing sa _nav.html ===== #}
+    {% include "_nav.html" %}
 
     <main class="max-w-6xl mx-auto px-4 py-8">
 
@@ -161,7 +143,8 @@
                             class="bg-gun-800 hover:bg-gun-700 text-white px-3 py-1.5 rounded">Update</button>
                     </form>
 
-                    {# Magtatanong muna bago burahin #}
+                    {# Owner lang ang puwedeng magbura; magtatanong muna bago burahin #}
+                    {% if me and me['role'] == 'owner' %}
                     <form method="post" action="{{ url_for('delete_quote', quote_id=r['id']) }}"
                         onsubmit="return confirm('Delete this request and its photo permanently?')">
                         <input type="hidden" name="csrf" value="{{ csrf_token() }}" />
@@ -169,6 +152,7 @@
                         <input type="hidden" name="f_q" value="{{ q }}" />
                         <button type="submit" class="text-sm text-red-600 hover:underline px-2 py-1.5">Delete</button>
                     </form>
+                    {% endif %}
                 </div>
             </article>
 

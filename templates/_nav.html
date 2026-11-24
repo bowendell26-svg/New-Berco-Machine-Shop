@@ -1,0 +1,42 @@
+{# Pang-itaas na bar ng lahat ng admin page: pangalan ng shop, mga link, at Log out #}
+<header class="bg-gun-900 border-b border-slate-700/70">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+        <div class="leading-none">
+            <span class="block font-head font-bold text-xl text-white tracking-wide">NEW BERCO</span>
+            <span class="block text-[10px] tracking-widest text-slate-400">ADMIN DASHBOARD</span>
+        </div>
+
+        <nav class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-300" aria-label="Admin">
+            <a href="{{ url_for('dashboard') }}" class="hover:text-amber-500">Dashboard</a>
+            {# Owner lang ang may Users at Security log #}
+            {% if me and me['role'] == 'owner' %}
+            <a href="{{ url_for('users') }}" class="hover:text-amber-500">Users</a>
+            <a href="{{ url_for('security') }}" class="hover:text-amber-500">Security log</a>
+            {% endif %}
+            <a href="{{ url_for('change_password') }}" class="hover:text-amber-500">Change password</a>
+            <a href="{{ url_for('home') }}" target="_blank" class="hover:text-amber-500">View website</a>
+            {# Sino ang naka-login at ano ang role #}
+            {% if me %}<span class="text-slate-400">{{ me['username'] }} ({{ me['role'] }})</span>{% endif %}
+            {# Ang logout ay POST na may csrf para hindi ma-logout ng ibang website ang admin #}
+            <form method="post" action="{{ url_for('admin_logout') }}">
+                <input type="hidden" name="csrf" value="{{ csrf_token() }}" />
+                <button type="submit"
+                    class="border border-slate-500 hover:border-amber-500 text-white px-3 py-1.5 rounded">Log
+                    out</button>
+            </form>
+        </nav>
+    </div>
+</header>
+
+{# Mga mensahe (tagumpay o error) pagkatapos ng isang aksyon #}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="max-w-6xl mx-auto px-4 mt-4 space-y-2">
+    {% for cat, msg in messages %}
+    <p role="status"
+        class="rounded border px-4 py-3 text-sm {{ 'border-red-300 bg-red-50 text-red-700' if cat == 'error' else 'border-green-300 bg-green-50 text-green-800' }}">
+        {{ msg }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+{% endwith %}

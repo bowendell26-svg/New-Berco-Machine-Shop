@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{# Pangunahing balangkas ng mga admin page (Users, Security log, Change password); English ang lahat ng makikita #}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{% block title %}Admin{% endblock %} | New Berco Machine Shop</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Rajdhani:wght@600;700&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Parehong kulay at font ng pangunahing website
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { gun: { 900: '#0f141a', 800: '#161d26', 700: '#1e2733' }, amber: { 600: '#ea580c', 500: '#f97316' } },
+                    fontFamily: { head: ['Rajdhani', 'sans-serif'], body: ['Inter', 'sans-serif'] }
+                }
+            }
+        };
+    </script>
+    <style>
+        :focus-visible {
+            outline: 2px solid #f97316;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-100 text-slate-800 font-body">
+    {# Top bar at mga mensahe #}
+    {% include "_nav.html" %}
+    {# Dito papasok ang laman ng bawat page #}
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+
+</html>
