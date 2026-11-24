@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+{# Dashboard ng admin: dito makikita ang lahat ng quote request; English ang lahat ng makikita sa screen #}
+<html lang="en">
+
+<head>
+    {# Pangunahing meta; "noindex" para hindi lumabas sa Google #}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Dashboard | New Berco Machine Shop</title>
+
+    {# Mga font at Tailwind CDN #}
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Rajdhani:wght@600;700&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Parehong kulay at font ng pangunahing website
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { gun: { 900: '#0f141a', 800: '#161d26', 700: '#1e2733' }, amber: { 600: '#ea580c', 500: '#f97316' } },
+                    fontFamily: { head: ['Rajdhani', 'sans-serif'], body: ['Inter', 'sans-serif'] }
+                }
+            }
+        };
+    </script>
+    <style>
+        :focus-visible {
+            outline: 2px solid #f97316;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-100 text-slate-800 font-body">
+
+    {# Kulay ng bawat status; ginagamit sa badge #}
+    {% set badge = {'New': 'bg-amber-100 text-amber-800', 'Contacted': 'bg-sky-100 text-sky-800', 'Done': 'bg-green-100
+    text-green-800'} %}
+
+    {# ===== TOP BAR: pangalan ng shop at Log out ===== #}
+    <header class="bg-gun-900 border-b border-slate-700/70">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="leading-none">
+                <span class="block font-head font-bold text-xl text-white tracking-wide">NEW BERCO</span>
+                <span class="block text-[10px] tracking-widest text-slate-400">ADMIN DASHBOARD</span>
+            </div>
+            <div class="flex items-center gap-4 text-sm">
+                <a href="{{ url_for('home') }}" target="_blank" class="text-slate-300 hover:text-amber-500">View
+                    website</a>
+                {# Ang logout ay POST na may csrf para hindi ma-logout ng ibang website ang admin #}
+                <form method="post" action="{{ url_for('admin_logout') }}">
+                    <input type="hidden" name="csrf" value="{{ csrf_token() }}" />
+                    <button type="submit"
+                        class="border border-slate-500 hover:border-amber-500 text-white px-3 py-1.5 rounded">Log
+                        out</button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+
+        {# ===== MGA BILANG: pindutin para i-filter ayon sa status ===== #}
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-3" aria-label="Request totals">
+            <a href="{{ url_for('dashboard', q=q) }}"
+                class="bg-white rounded-lg border {{ 'border-amber-600' if not current else 'border-slate-200' }} p-4 hover:border-amber-600">
+                <span class="block text-sm text-slate-500">All requests</span>
+                <span class="block font-head font-bold text-3xl text-gun-900">{{ total }}</span>
+            </a>
+            {% for s in statuses %}
+            <a href="{{ url_for('dashboard', status=s, q=q) }}"
+                class="bg-white rounded-lg border {{ 'border-amber-600' if current == s else 'border-slate-200' }} p-4 hover:border-amber-600">
+                <span class="block text-sm text-slate-500">{{ s }}</span>
+                <span class="block font-head font-bold text-3xl text-gun-900">{{ counts[s] }}</span>
+            </a>
+            {% endfor %}
+        </section>
+
+        {# ===== PAGHAHANAP: pangalan, contact, serbisyo, o notes ===== #}
+        <form method="get" action="{{ url_for('dashboard') }}" class="mt-6 flex gap-2">
+            {% if current %}<input type="hidden" name="status" value="{{ current }}" />{% endif %}
+            <label for="q" class="sr-only">Search requests</label>
+            <input id="q" name="q" type="search" value="{{ q }}" placeholder="Search name, contact, service, or notes"
+                class="flex-1 border border-slate-300 rounded px-3 py-2.5 bg-white focus:border-amber-600" />
+            <button type="submit"
+                class="bg-gun-800 hover:bg-gun-700 text-white font-semibold px-5 rounded">Search</button>
+            {% if q or current %}
+            <a href="{{ url_for('dashboard') }}"
+                class="flex items-center px-3 text-sm text-slate-600 hover:text-amber-600">Clear</a>
+            {% endif %}
+        </form>
+
+        {# ===== LISTAHAN NG MGA REQUEST ===== #}
+        <section class="mt-6 space-y-4" aria-label="Quote requests">
+            {% for r in quotes %}
+            {# Isang card bawat request #}
+            <article class="bg-white rounded-lg border border-slate-200 p-5">
+
+                {# Itaas: reference number, petsa, at status #}
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-3">
+                        <span class="font-head font-bold text-xl text-gun-900">{{ 'BER-%05d'|format(r['id']) }}</span>
+                        <span class="text-sm text-slate-500">{{ r['created_at'] }}</span>
+                    </div>
+                    <span
+                        class="text-xs font-semibold px-2.5 py-1 rounded-full {{ badge[r['status']] if r['status'] in badge else 'bg-slate-100 text-slate-700' }}">{{
+                        r['status'] }}</span>
+                </div>
+
+                {# Gitna: detalye ng customer at larawan #}
+                <div class="mt-4 flex flex-col sm:flex-row gap-4">
+                    <dl class="flex-1 grid grid-cols-[auto,1fr] gap-x-4 gap-y-1.5 text-sm">
+                        <dt class="text-slate-500">Name</dt>
+                        <dd class="font-medium">{{ r['name'] }}</dd>
+                        <dt class="text-slate-500">Contact</dt>
+                        <dd class="font-medium">
+                            {# Kapag numero ang contact, gawing tawag na link #}
+                            {% set digits = r['contact']|replace(' ', '')|replace('-', '')|replace('+', '') %}
+                            {% if digits.isdigit() %}
+                            <a class="text-amber-600 hover:underline" href="tel:{{ r['contact']|replace(' ', '') }}">{{
+                                r['contact'] }}</a>
+                            {% else %}
+                            {{ r['contact'] }}
+                            {% endif %}
+                        </dd>
+                        <dt class="text-slate-500">Service</dt>
+                        <dd class="font-medium">{{ r['service'] }}</dd>
+                        <dt class="text-slate-500">Notes</dt>
+                        <dd class="whitespace-pre-line">{{ r['notes'] }}</dd>
+                    </dl>
+
+                    {# Larawan ng piyesa; pindutin para buksan nang malaki #}
+                    {% if r['photo'] %}
+                    <a href="{{ url_for('admin_upload', filename=r['photo']) }}" target="_blank" class="shrink-0"
+                        aria-label="Open part photo">
+                        <img src="{{ url_for('admin_upload', filename=r['photo']) }}"
+                            alt="Part photo for {{ 'BER-%05d'|format(r['id']) }}" loading="lazy"
+                            class="w-full sm:w-32 h-32 object-cover rounded border border-slate-200" />
+                    </a>
+                    {% endif %}
+                </div>
+
+                {# Ibaba: palitan ang status o burahin #}
+                <div class="mt-4 pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+                    <form method="post" action="{{ url_for('set_status', quote_id=r['id']) }}"
+                        class="flex items-center gap-2 text-sm">
+                        <input type="hidden" name="csrf" value="{{ csrf_token() }}" />
+                        {# Itinatago ang filter at search para bumalik sa parehong view #}
+                        <input type="hidden" name="f_status" value="{{ current }}" />
+                        <input type="hidden" name="f_q" value="{{ q }}" />
+                        <label for="st{{ r['id'] }}" class="text-slate-500">Status</label>
+                        <select id="st{{ r['id'] }}" name="status"
+                            class="border border-slate-300 rounded px-2 py-1.5 bg-white">
+                            {% for s in statuses %}
+                            <option value="{{ s }}" {{ 'selected' if r['status']==s }}>{{ s }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit"
+                            class="bg-gun-800 hover:bg-gun-700 text-white px-3 py-1.5 rounded">Update</button>
+                    </form>
+
+                    {# Magtatanong muna bago burahin #}
+                    <form method="post" action="{{ url_for('delete_quote', quote_id=r['id']) }}"
+                        onsubmit="return confirm('Delete this request and its photo permanently?')">
+                        <input type="hidden" name="csrf" value="{{ csrf_token() }}" />
+                        <input type="hidden" name="f_status" value="{{ current }}" />
+                        <input type="hidden" name="f_q" value="{{ q }}" />
+                        <button type="submit" class="text-sm text-red-600 hover:underline px-2 py-1.5">Delete</button>
+                    </form>
+                </div>
+            </article>
+
+            {% else %}
+            {# Walang laman: ipaliwanag kung bakit #}
+            <div class="bg-white rounded-lg border border-slate-200 p-8 text-center text-slate-600">
+                {% if q or current %}
+                No requests match this search or filter. <a href="{{ url_for('dashboard') }}"
+                    class="text-amber-600 hover:underline">Show all requests</a>.
+                {% else %}
+                No quote requests yet. New requests from the website will appear here.
+                {% endif %}
+            </div>
+            {% endfor %}
+        </section>
+    </main>
+</body>
+
+</html>

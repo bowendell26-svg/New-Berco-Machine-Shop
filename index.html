@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<!-- Ang HTML5 na dokumento; "en" ang wika ng website para English ang lahat ng makikita ng bisita -->
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <!-- Pangunahing meta: encoding at responsive na viewport para sa mobile -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>New Berco Machine Shop | Precision Machining in Kidapawan, Cotabato</title>
+    <meta name="description"
+        content="Engine reboring, crankshaft grinding, lathe and milling work, and heavy welding in Kidapawan, Cotabato. Call 0950 923 2923." />
+
+    <!-- Google Fonts: Rajdhani para sa heading, Inter para sa body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Rajdhani:wght@500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Tailwind CSS sa pamamagitan ng CDN (walang external na CSS file) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Custom na kulay at font ng Tailwind; dito mo mababago ang tema
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gun: { 900: '#0f141a', 800: '#161d26', 700: '#1e2733' }, // madilim na gunmetal
+                        amber: { 600: '#ea580c', 500: '#f97316' }                // safety orange
+                    },
+                    fontFamily: {
+                        head: ['Rajdhani', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Maliit na custom CSS: pattern ng bakal at focus outline -->
+    <style>
+        /* Mga guhit na parang diamond-plate sa background ng hero */
+        .plate {
+            background-image: repeating-linear-gradient(135deg, rgba(255, 255, 255, .035) 0 2px, transparent 2px 14px);
+        }
+
+        /* Malinaw na focus ring para sa keyboard users */
+        :focus-visible {
+            outline: 2px solid #f97316;
+            outline-offset: 2px;
+        }
+
+        /* Igalang ang reduced motion setting ng user */
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            * {
+                transition: none !important;
+            }
+        }
+
+        /* Hover effect ng mga capability figure: umaangat, umiilaw ang gilid na amber, at lumalabas ang dagdag na detalye */
+        .cap {
+            position: relative;
+            transition: transform .25s, border-color .25s, box-shadow .25s;
+        }
+
+        /* Amber na guhit sa itaas na lumalawak kapag hinover */
+        .cap::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 3px;
+            width: 0;
+            background: #f97316;
+            transition: width .35s;
+            z-index: 1;
+        }
+
+        .cap:hover,
+        .cap:focus-visible {
+            transform: translateY(-6px);
+            border-color: #f97316;
+            box-shadow: 0 14px 30px -12px rgba(249, 115, 22, .45);
+        }
+
+        .cap:hover::before,
+        .cap:focus-visible::before {
+            width: 100%;
+        }
+
+        /* Bahagyang lumalaki ang placeholder ng larawan; gumagana rin ito sa totoong <img> */
+        .cap-img {
+            transition: transform .45s, color .3s;
+        }
+
+        .cap:hover .cap-img,
+        .cap:focus-visible .cap-img {
+            transform: scale(1.08);
+            color: #cbd5e1;
+        }
+
+        /* Dagdag na detalye na nakatago hanggang hinover o na-focus */
+        .cap-more {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height .3s, opacity .3s;
+        }
+
+        .cap:hover .cap-more,
+        .cap:focus-visible .cap-more {
+            max-height: 3rem;
+            opacity: 1;
+        }
+
+        /* Sa touch screen (walang hover), laging nakikita ang dagdag na detalye */
+        @media (hover: none) {
+            .cap-more {
+                max-height: 3rem;
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-white text-slate-800 font-body antialiased">
+
+    <!-- ===== STICKY NA NAVIGATION BAR ===== -->
+    <header class="sticky top-0 z-50 bg-gun-900/95 backdrop-blur border-b border-slate-700/70">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+
+            <!-- Brand mark: gear SVG + pangalan ng shop -->
+            <a href="#top" class="flex items-center gap-3" aria-label="New Berco Machine Shop home">
+                <svg class="w-9 h-9 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.6" aria-hidden="true">
+                    <!-- Ngipin ng gear at gitnang butas -->
+                    <circle cx="12" cy="12" r="3.2" />
+                    <path
+                        d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1" />
+                    <circle cx="12" cy="12" r="6.8" />
+                </svg>
+                <span class="leading-none">
+                    <span class="block font-head font-bold text-xl tracking-wide text-white">NEW BERCO</span>
+                    <span class="block text-[10px] tracking-widest text-slate-400">MACHINE SHOP • KIDAPAWAN</span>
+                </span>
+            </a>
+
+            <!-- Nav links para sa desktop -->
+            <nav class="hidden md:flex items-center gap-7 text-sm text-slate-300" aria-label="Main">
+                <a class="hover:text-amber-500" href="#services">Services</a>
+                <a class="hover:text-amber-500" href="#capabilities">Capabilities</a>
+                <a class="hover:text-amber-500" href="#quote">Request Quote</a>
+                <a class="hover:text-amber-500" href="#location">Location</a>
+            </nav>
+
+            <!-- Call button at hamburger -->
+            <div class="flex items-center gap-2">
+                <a href="tel:09509232923"
+                    class="hidden sm:inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white font-semibold text-sm px-4 py-2 rounded">
+                    Call 0950 923 2923
+                </a>
+                <button id="menuBtn" class="md:hidden p-2 text-white" aria-label="Open menu" aria-expanded="false"
+                    aria-controls="drawer">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile drawer; nakatago hanggang pindutin ang hamburger -->
+        <div id="drawer" class="hidden md:hidden border-t border-slate-700/70 bg-gun-800">
+            <nav class="px-4 py-3 flex flex-col gap-1 text-slate-200" aria-label="Mobile">
+                <a class="py-2 drawer-link" href="#services">Services</a>
+                <a class="py-2 drawer-link" href="#capabilities">Capabilities</a>
+                <a class="py-2 drawer-link" href="#quote">Request Quote</a>
+                <a class="py-2 drawer-link" href="#location">Location</a>
+                <a href="tel:09509232923"
+                    class="mt-2 text-center bg-amber-600 text-white font-semibold py-2.5 rounded">Call 0950 923 2923</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="top">
+
+        <!-- ===== HERO ===== -->
+        <section class="bg-gun-900 plate text-white">
+            <div class="max-w-6xl mx-auto px-4 pt-16 pb-12 md:pt-24">
+                <div class="max-w-3xl">
+                    <h1 class="font-head font-bold text-4xl sm:text-5xl md:text-6xl leading-[1.05]">
+                        Precision Machining &amp; Heavy Engine Rebuilding in Kidapawan
+                    </h1>
+                    <p class="mt-5 text-slate-300 text-lg max-w-2xl">
+                        Accurate tolerances, reliable turnaround, and direct talk with the shop. We serve mechanics,
+                        trucking and logistics fleets, agricultural machinery owners, and contractors across Cotabato.
+                    </p>
+                    <!-- Dalawang CTA: scroll sa form at tawag -->
+                    <div class="mt-8 flex flex-col sm:flex-row gap-3">
+                        <a href="#quote"
+                            class="text-center bg-amber-600 hover:bg-amber-500 text-white font-semibold px-6 py-3 rounded">Request
+                            a Quote</a>
+                        <a href="tel:09509232923"
+                            class="text-center border border-slate-500 hover:border-amber-500 text-white font-semibold px-6 py-3 rounded">Call
+                            Now (0950 923 2923)</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical spec strip / trust indicators -->
+            <div class="border-t border-slate-700/70 bg-gun-800">
+                <ul class="max-w-6xl mx-auto px-4 py-5 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <li><span class="block font-head font-semibold text-lg text-amber-500">Precision
+                            Tolerances</span><span class="text-slate-400">Measured, not guessed</span></li>
+                    <li><span class="block font-head font-semibold text-lg text-amber-500">Direct Shop
+                            Consultation</span><span class="text-slate-400">Talk to the machinist</span></li>
+                    <li><span class="block font-head font-semibold text-lg text-amber-500">Open Daily Until 5:00
+                            PM</span><span class="text-slate-400">Walk-ins welcome</span></li>
+                    <li><span class="block font-head font-semibold text-lg text-amber-500">Kidapawan,
+                            Cotabato</span><span class="text-slate-400">Near Gaisano Grand</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===== CORE SERVICES (6 cards) ===== -->
+        <section id="services" class="bg-slate-50 py-16 md:py-20 scroll-mt-16">
+            <div class="max-w-6xl mx-auto px-4">
+                <h2 class="font-head font-bold text-3xl md:text-4xl text-gun-900">Core machining services</h2>
+                <p class="mt-2 text-slate-600 max-w-2xl">From a single worn bushing to a full engine rebuild, we machine
+                    parts to the size your equipment needs.</p>
+
+                <!-- Grid ng mga service card; ang bawat card ay may icon, pamagat, at maikling paliwanag -->
+                <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+                    <article class="bg-white border border-slate-200 rounded-lg p-6">
+                        <svg class="w-9 h-9 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.6" aria-hidden="true">
+                            <circle cx="12" cy="12" r="8" />
+                            <circle cx="12" cy="12" r="4" />
+                            <path d="M12 2v4M12 18v4" />
+                        </svg>
+                        <h3 class="mt-4 font-head font-semibold text-xl text-gun-900">Engine Reboring &amp; Cylinder
+                            Sleeving</h3>
+                        <p class="mt-2 text-sm text-slate-600">Restore worn cylinder bores to the right size, or fit new
+                            sleeves, so compression and oil control come back.</p>
+                    </article>
+
+                    <article class="bg-white border border-slate-200 rounded-lg p-6">
+                        <svg class="w-9 h-9 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.6" aria-hidden="true">
+                            <rect x="3" y="14" width="18" height="6" rx="1" />
+                            <path d="M7 14V8M12 14V4M17 14V8" />
+                        </svg>
+                        <h3 class="mt-4 font-head font-semibold text-xl text-gun-900">Cylinder Head Resurfacing &amp;
+                            Valve Work</h3>
+                        <p class="mt-2 text-sm text-slate-600">Flat head surfaces, valve seat cutting, and valve
+                            grinding for a tight seal and a reliable head gasket joint.</p>
+                    </article>
+
+                    <article class="bg-white border border-slate-200 rounded-lg p-6">
+                        <svg class="w-9 h-9 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.6" aria-hidden="true">
+                            <path d="M2 12h20" />
+                            <circle cx="6" cy="12" r="3" />
+                            <circle cx="12" cy="12" r="3" />
+                            <circle cx="18" cy="12" r="3" />
+                        </svg>
+                        <h3 class="mt-4 font-head font-semibold text-xl text-gun-900">Crankshaft Grinding &amp; Line
+                            Boring</h3>
+                        <p class="mt-2 text-sm text-slate-600">Journal grinding to undersize and line boring of engine
+                            blocks for true alignment and correct bearing clearance.</p>
+                    </article>
+
+                    <article class="bg-white border border-slate-200 rounded-lg p-6">
+                        <svg class="w-9 h-9 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.6" aria-hidden="true">
+                            <path d="M3 8h14v8H3zM17 10h4M17 14h4" />
+                            <path d="M7 8V5h6v3" />
+                        </svg>
+                        <h3 class="mt-4 font-head font-semibold text-xl text-gun-900">Lathe &amp; Milling Precision
+                            Machining</h3>
+                        <p class="mt-2 text-sm text-slate-600">Turning, facing, threading, slotting, and milling of
+                            steel, brass, and aluminum to your drawing or sample part.</p>
+                    </article>
+
+                    <article class="bg-white border border-slate-200 rounded-lg p-6">
+                        <svg class="w-9 h-9 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.6" aria-hidden="true">
+                            <circle cx="9" cy="12" r="5" />
+                            <circle cx="9" cy="12" r="1.5" />
+                            <path d="M14 12h8M18 9v6" />
+                        </svg>
+                        <h3 class="mt-4 font-head font-semibold text-xl text-gun-900">Custom Bushing, Shaft &amp; Gear
+                            Fabrication</h3>
+                        <p class="mt-2 text-sm text-slate-600">Made-to-measure replacements for parts that are obsolete,
+                            imported, or too slow to order.</p>
+                    </article>
+
+                    <article class="bg-white border border-slate-200 rounded-lg p-6">
+                        <svg class="w-9 h-9 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.6" aria-hidden="true">
+                            <path d="M4 20l8-8M12 12l3-3 5 5-3 3z" />
+                            <path d="M15 4l1 2 2 1-2 1-1 2-1-2-2-1 2-1z" />
+                        </svg>
+                        <h3 class="mt-4 font-head font-semibold text-xl text-gun-900">Heavy Welding &amp; Structural
+                            Repair</h3>
+                        <p class="mt-2 text-sm text-slate-600">Crack repair, build-up of worn surfaces, and frame or
+                            bracket work for trucks, tractors, and heavy equipment.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CAPABILITIES / WORKSHOP SHOWCASE ===== -->
+        <section id="capabilities" class="bg-gun-900 text-white py-16 md:py-20 scroll-mt-16">
+            <div class="max-w-6xl mx-auto px-4">
+                <h2 class="font-head font-bold text-3xl md:text-4xl">Shop capabilities</h2>
+                <p class="mt-2 text-slate-400 max-w-2xl">The machines and skills behind every job.</p>
+
+                <!-- Apat na frame; palitan ang loob ng <img> kapag may totoong litrato na -->
+                <div class="mt-10 grid sm:grid-cols-2 gap-5">
+
+                    <figure tabindex="0" class="cap bg-gun-700 border border-slate-700/70 rounded-lg overflow-hidden">
+                        <!-- Placeholder na larawan: ilagay dito ang <img src="lathe.jpg" class="w-full h-full object-cover"> -->
+                        <div
+                            class="cap-img plate h-48 bg-gun-800 flex items-center justify-center text-slate-500 text-sm">
+                            Photo of lathe to be added</div>
+                        <figcaption class="p-5">
+                            <h3 class="font-head font-semibold text-xl text-amber-500">Lathe &amp; Turning</h3>
+                            <p class="mt-1 text-sm text-slate-300">Shafts, pins, pulleys, and sleeves turned to size
+                                with clean surface finish.</p>
+                            <p class="cap-more mt-2 text-sm text-amber-500">Typical work: shafts, bushings, pulleys,
+                                threaded parts.</p>
+                        </figcaption>
+                    </figure>
+
+                    <figure tabindex="0" class="cap bg-gun-700 border border-slate-700/70 rounded-lg overflow-hidden">
+                        <!-- Placeholder para sa milling at boring machine -->
+                        <div
+                            class="cap-img plate h-48 bg-gun-800 flex items-center justify-center text-slate-500 text-sm">
+                            Photo of milling and boring setup to be added</div>
+                        <figcaption class="p-5">
+                            <h3 class="font-head font-semibold text-xl text-amber-500">Milling &amp; Boring</h3>
+                            <p class="mt-1 text-sm text-slate-300">Flat faces, keyways, slots, and accurate bores on
+                                blocks and housings.</p>
+                            <p class="cap-more mt-2 text-sm text-amber-500">Typical work: engine blocks, housings,
+                                keyways, flanges.</p>
+                        </figcaption>
+                    </figure>
+
+                    <figure tabindex="0" class="cap bg-gun-700 border border-slate-700/70 rounded-lg overflow-hidden">
+                        <!-- Placeholder para sa surface grinder -->
+                        <div
+                            class="cap-img plate h-48 bg-gun-800 flex items-center justify-center text-slate-500 text-sm">
+                            Photo of surface grinder to be added</div>
+                        <figcaption class="p-5">
+                            <h3 class="font-head font-semibold text-xl text-amber-500">Surface Grinding</h3>
+                            <p class="mt-1 text-sm text-slate-300">Fine finishing for flatness and parallelism on heads,
+                                plates, and tooling.</p>
+                            <p class="cap-more mt-2 text-sm text-amber-500">Typical work: cylinder heads, plates,
+                                tooling, shims.</p>
+                        </figcaption>
+                    </figure>
+
+                    <figure tabindex="0" class="cap bg-gun-700 border border-slate-700/70 rounded-lg overflow-hidden">
+                        <!-- Placeholder para sa welding bay -->
+                        <div
+                            class="cap-img plate h-48 bg-gun-800 flex items-center justify-center text-slate-500 text-sm">
+                            Photo of welding bay to be added</div>
+                        <figcaption class="p-5">
+                            <h3 class="font-head font-semibold text-xl text-amber-500">Fabrication &amp; Welding</h3>
+                            <p class="mt-1 text-sm text-slate-300">Repairs and custom builds in steel, from small
+                                brackets to heavy frames.</p>
+                            <p class="cap-more mt-2 text-sm text-amber-500">Typical work: truck frames, brackets,
+                                cracked castings.</p>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== QUOTE & PART INQUIRY FORM ===== -->
+        <section id="quote" class="bg-slate-50 py-16 md:py-20 scroll-mt-16">
+            <div class="max-w-3xl mx-auto px-4">
+                <h2 class="font-head font-bold text-3xl md:text-4xl text-gun-900">Request a quote</h2>
+                <p class="mt-2 text-slate-600">Describe the part or job. Add a photo if you have one. The shop will
+                    contact you with a price and timeline.</p>
+
+                <!-- Form; novalidate para JS ang gumawa ng validation -->
+                <form id="quoteForm" novalidate class="mt-8 bg-white border border-slate-200 rounded-lg p-6 space-y-5">
+
+                    <!-- Honeypot: nakatagong field para sa spam bots; dapat laging walang laman kapag totoong tao -->
+                    <div class="absolute -left-[9999px]" aria-hidden="true">
+                        <label for="website">Leave this field empty</label>
+                        <input id="website" type="text" tabindex="-1" autocomplete="off" />
+                    </div>
+
+                    <!-- Pangalan -->
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gun-900">Full name</label>
+                        <input id="name" type="text" autocomplete="name"
+                            class="mt-1 w-full border border-slate-300 rounded px-3 py-2.5 focus:border-amber-600" />
+                        <p class="err hidden mt-1 text-sm text-red-600" data-for="name">Enter your full name.</p>
+                    </div>
+
+                    <!-- Contact number / Messenger / Viber -->
+                    <div>
+                        <label for="contact" class="block text-sm font-medium text-gun-900">Contact number, Messenger,
+                            or Viber</label>
+                        <input id="contact" type="text" autocomplete="tel"
+                            class="mt-1 w-full border border-slate-300 rounded px-3 py-2.5 focus:border-amber-600" />
+                        <p class="err hidden mt-1 text-sm text-red-600" data-for="contact">Enter a number or account we
+                            can reach you on.</p>
+                    </div>
+
+                    <!-- Uri ng serbisyo -->
+                    <div>
+                        <label for="service" class="block text-sm font-medium text-gun-900">Service required</label>
+                        <select id="service"
+                            class="mt-1 w-full border border-slate-300 rounded px-3 py-2.5 bg-white focus:border-amber-600">
+                            <option value="">Select a service</option>
+                            <option>Engine Reboring &amp; Cylinder Sleeving</option>
+                            <option>Cylinder Head Resurfacing &amp; Valve Work</option>
+                            <option>Crankshaft Grinding &amp; Line Boring</option>
+                            <option>Lathe &amp; Milling Precision Machining</option>
+                            <option>Custom Bushing, Shaft &amp; Gear Fabrication</option>
+                            <option>Heavy Welding &amp; Structural Repair</option>
+                            <option>Other / Not sure</option>
+                        </select>
+                        <p class="err hidden mt-1 text-sm text-red-600" data-for="service">Choose the service you need.
+                        </p>
+                    </div>
+
+                    <!-- Sukat at tala tungkol sa piyesa -->
+                    <div>
+                        <label for="notes" class="block text-sm font-medium text-gun-900">Part dimensions and
+                            notes</label>
+                        <textarea id="notes" rows="4"
+                            placeholder="Example: engine model, bore size, shaft diameter and length, material, quantity"
+                            class="mt-1 w-full border border-slate-300 rounded px-3 py-2.5 focus:border-amber-600"></textarea>
+                        <p class="err hidden mt-1 text-sm text-red-600" data-for="notes">Add a few details about the
+                            part or job.</p>
+                    </div>
+
+                    <!-- Opsyonal na larawan ng piyesa -->
+                    <div>
+                        <label for="photo" class="block text-sm font-medium text-gun-900">Part photo (optional)</label>
+                        <input id="photo" type="file" accept="image/*"
+                            class="mt-1 block w-full text-sm text-slate-600 file:mr-3 file:rounded file:border-0 file:bg-gun-800 file:text-white file:px-4 file:py-2 file:cursor-pointer" />
+                        <p id="photoErr" class="hidden mt-1 text-sm text-red-600"></p>
+
+                        <!-- Preview ng napiling larawan, may filename at remove button -->
+                        <div id="preview"
+                            class="hidden mt-3 flex items-center gap-3 border border-slate-200 rounded p-2">
+                            <img id="previewImg" alt="Selected part photo preview"
+                                class="w-20 h-20 object-cover rounded" />
+                            <span id="previewName" class="flex-1 text-sm text-slate-700 break-all"></span>
+                            <button type="button" id="removePhoto"
+                                class="text-sm font-medium text-red-600 hover:underline px-2">Remove</button>
+                        </div>
+                    </div>
+
+                    <button id="submitBtn" type="submit"
+                        class="w-full bg-amber-600 hover:bg-amber-500 text-white font-semibold py-3 rounded disabled:opacity-60">Send
+                        quote request</button>
+                    <!-- Mensahe kapag hindi naipadala ang request -->
+                    <p id="sendErr" class="hidden text-sm text-red-600" role="alert"></p>
+                </form>
+
+                <!-- Confirmation summary card; lalabas pagkatapos ng matagumpay na validation -->
+                <div id="summary"
+                    class="hidden mt-6 bg-white border-l-4 border-amber-600 border border-slate-200 rounded-lg p-6"
+                    role="status">
+                    <h3 class="font-head font-semibold text-2xl text-gun-900">Request sent</h3>
+                    <p class="mt-1 text-sm text-slate-600">Your reference number is <strong id="sRef"></strong>. The
+                        shop will contact you soon.</p>
+                    <dl class="mt-3 text-sm grid grid-cols-[auto,1fr] gap-x-4 gap-y-2">
+                        <dt class="text-slate-500">Name</dt>
+                        <dd id="sName" class="text-slate-800"></dd>
+                        <dt class="text-slate-500">Contact</dt>
+                        <dd id="sContact" class="text-slate-800"></dd>
+                        <dt class="text-slate-500">Service</dt>
+                        <dd id="sService" class="text-slate-800"></dd>
+                        <dt class="text-slate-500">Notes</dt>
+                        <dd id="sNotes" class="text-slate-800 whitespace-pre-line"></dd>
+                        <dt class="text-slate-500">Photo</dt>
+                        <dd id="sPhoto" class="text-slate-800"></dd>
+                    </dl>
+                    <!-- Paalala para sa customer kung kailangan ng mabilis na sagot -->
+                    <p class="mt-4 text-sm text-slate-600">Need a faster answer? Call <a
+                            class="text-amber-600 font-medium" href="tel:09509232923">0950 923 2923</a> and give your
+                        reference number.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== LOCATION, HOURS & CONTACT ===== -->
+        <section id="location" class="bg-white py-16 md:py-20 scroll-mt-16">
+            <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-10">
+
+                <!-- Kaliwa: address, oras, telepono -->
+                <div>
+                    <h2 class="font-head font-bold text-3xl md:text-4xl text-gun-900">Visit the shop</h2>
+                    <dl class="mt-6 space-y-4 text-slate-700">
+                        <div>
+                            <dt class="text-sm text-slate-500">Address</dt>
+                            <dd class="font-medium">Kidapawan, Cotabato</dd>
+                            <dd class="text-sm">Near Gaisano Grand Kidapawan and Kidapawan Doctors Hospital</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm text-slate-500">Plus Code</dt>
+                            <dd id="plusCode" class="font-medium">23FP+J3 Kidapawan, Cotabato</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm text-slate-500">Phone</dt>
+                            <dd><a class="font-medium text-amber-600" href="tel:09509232923">0950 923 2923</a></dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm text-slate-500">Hours</dt>
+                            <dd class="font-medium">Open until 5:00 PM</dd>
+                        </div>
+                    </dl>
+
+                    <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                        <a href="https://www.google.com/maps/search/?api=1&query=23FP%2BJ3+Kidapawan+Cotabato"
+                            target="_blank" rel="noopener"
+                            class="text-center bg-amber-600 hover:bg-amber-500 text-white font-semibold px-5 py-3 rounded">Open
+                            in Google Maps</a>
+                        <!-- Kokopyahin ng JS ang address at plus code -->
+                        <button type="button" id="copyBtn"
+                            class="border border-slate-300 hover:border-amber-600 font-semibold px-5 py-3 rounded">Copy
+                            address</button>
+                    </div>
+                    <p id="copyMsg" class="mt-2 text-sm text-green-700 h-5" role="status"></p>
+                </div>
+
+                <!-- Kanan: naka-embed na mapa (lazy load para mabilis sa mahinang device) -->
+                <div class="border border-slate-200 rounded-lg overflow-hidden min-h-[320px]">
+                    <iframe title="Map of New Berco Machine Shop, Kidapawan" class="w-full h-full min-h-[320px]"
+                        loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                        src="https://www.google.com/maps?q=23FP%2BJ3+Kidapawan+Cotabato&output=embed"></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="bg-gun-900 text-slate-400 border-t border-slate-700/70">
+        <div class="max-w-6xl mx-auto px-4 py-10 grid sm:grid-cols-3 gap-8 text-sm">
+            <div>
+                <p class="font-head font-bold text-xl text-white">NEW BERCO</p>
+                <p class="text-xs tracking-widest">MACHINE SHOP • KIDAPAWAN</p>
+                <p class="mt-3">Precision machining and engine rebuilding in Kidapawan, Cotabato.</p>
+            </div>
+            <!-- Mabilis na links -->
+            <div>
+                <p class="font-semibold text-slate-200">Quick links</p>
+                <ul class="mt-2 space-y-1">
+                    <li><a class="hover:text-amber-500" href="#services">Services</a></li>
+                    <li><a class="hover:text-amber-500" href="#capabilities">Capabilities</a></li>
+                    <li><a class="hover:text-amber-500" href="#quote">Request Quote</a></li>
+                    <li><a class="hover:text-amber-500" href="#location">Location</a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-slate-200">Contact</p>
+                <p class="mt-2"><a class="hover:text-amber-500" href="tel:09509232923">0950 923 2923</a></p>
+                <p>Open until 5:00 PM</p>
+            </div>
+        </div>
+        <!-- Copyright; ang taon ay awtomatikong pinupunan ng JS -->
+        <div class="border-t border-slate-700/70 py-4 text-center text-xs">&copy; <span id="year">2026</span> New Berco
+            Machine Shop. All rights reserved.</div>
+    </footer>
+
+    <!-- ===== INLINE JAVASCRIPT ===== -->
+    <script>
+        // Shortcut function para sa pagkuha ng element gamit ang id
+        const $ = (id) => document.getElementById(id);
+
+        // --- Taon sa footer ---
+        $('year').textContent = new Date().getFullYear();
+
+        // --- Mobile menu: buksan/isara ang drawer ---
+        const menuBtn = $('menuBtn'), drawer = $('drawer');
+        menuBtn.addEventListener('click', () => {
+            const open = drawer.classList.toggle('hidden') === false; // true kapag nakabukas
+            menuBtn.setAttribute('aria-expanded', String(open));
+        });
+        // Isara ang drawer kapag may pinindot na link
+        document.querySelectorAll('.drawer-link').forEach((a) =>
+            a.addEventListener('click', () => { drawer.classList.add('hidden'); menuBtn.setAttribute('aria-expanded', 'false'); })
+        );
+
+        // --- Photo upload: preview, filename, at remove ---
+        const photo = $('photo'), preview = $('preview'), previewImg = $('previewImg'), photoErr = $('photoErr');
+        const MAX_MB = 8; // pinakamalaking laki ng larawan; palitan kung kailangan
+
+        function clearPhoto() {
+            if (previewImg.src.startsWith('blob:')) URL.revokeObjectURL(previewImg.src); // linisin ang memory
+            photo.value = '';
+            previewImg.removeAttribute('src');
+            preview.classList.add('hidden');
+            photoErr.classList.add('hidden');
+        }
+
+        photo.addEventListener('change', () => {
+            const file = photo.files[0];
+            if (!file) { clearPhoto(); return; }
+            // Siguraduhing larawan ang file at hindi lampas sa limit
+            if (!file.type.startsWith('image/')) { clearPhoto(); photoErr.textContent = 'Choose an image file (JPG, PNG, or WebP).'; photoErr.classList.remove('hidden'); return; }
+            if (file.size > MAX_MB * 1024 * 1024) { clearPhoto(); photoErr.textContent = 'Photo is larger than ' + MAX_MB + ' MB. Choose a smaller one.'; photoErr.classList.remove('hidden'); return; }
+            photoErr.classList.add('hidden');
+            previewImg.src = URL.createObjectURL(file);
+            $('previewName').textContent = file.name + ' (' + Math.round(file.size / 1024) + ' KB)';
+            preview.classList.remove('hidden');
+        });
+        $('removePhoto').addEventListener('click', clearPhoto);
+
+        // --- Form validation at confirmation card ---
+        const form = $('quoteForm');
+        const required = ['name', 'contact', 'service', 'notes']; // mga field na kailangang punan
+
+        // Ipakita o itago ang error message ng isang field
+        function setError(id, show) {
+            document.querySelector('[data-for="' + id + '"]').classList.toggle('hidden', !show);
+            $(id).classList.toggle('border-red-500', show);
+        }
+
+        // Alisin ang error habang nagta-type ang user
+        required.forEach((id) => $(id).addEventListener('input', () => setError(id, false)));
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            let firstBad = null;
+            required.forEach((id) => {
+                const bad = $(id).value.trim() === '';
+                setError(id, bad);
+                if (bad && !firstBad) firstBad = $(id);
+            });
+            if (firstBad) { firstBad.focus(); $('summary').classList.add('hidden'); return; }
+
+            // Buuin ang data na ipapadala sa Flask; kasama ang larawan kung meron
+            const data = new FormData();
+            data.append('name', $('name').value.trim());
+            data.append('contact', $('contact').value.trim());
+            data.append('service', $('service').value);
+            data.append('notes', $('notes').value.trim());
+            data.append('website', $('website').value); // honeypot; dapat walang laman
+            if (photo.files[0]) data.append('photo', photo.files[0]);
+
+            const btn = $('submitBtn'), err = $('sendErr');
+            err.classList.add('hidden');
+            btn.disabled = true; btn.textContent = 'Sending...'; // iwasan ang dobleng pindot
+
+            try {
+                const res = await fetch('/api/quote', { method: 'POST', body: data });
+                const json = await res.json().catch(() => ({})); // kapag hindi JSON ang sagot, walang error
+                if (!res.ok || !json.ok) throw new Error(json.error || 'The request could not be sent.');
+
+                // Ilagay ang laman ng form sa summary card
+                $('sRef').textContent = json.ref;
+                $('sName').textContent = $('name').value.trim();
+                $('sContact').textContent = $('contact').value.trim();
+                $('sService').textContent = $('service').value;
+                $('sNotes').textContent = $('notes').value.trim();
+                $('sPhoto').textContent = photo.files[0] ? photo.files[0].name : 'No photo attached';
+                $('summary').classList.remove('hidden');
+                $('summary').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                form.reset(); clearPhoto(); // linisin ang form pagkatapos ng tagumpay
+            } catch (e2) {
+                // Ipakita ang error at ang numero ng shop bilang alternatibo
+                err.textContent = e2.message + ' You can also call 0950 923 2923.';
+                err.classList.remove('hidden');
+            } finally {
+                btn.disabled = false; btn.textContent = 'Send quote request';
+            }
+        });
+
+        // --- Kopyahin ang address at plus code ---
+        $('copyBtn').addEventListener('click', async () => {
+            const text = 'New Berco Machine Shop, Kidapawan, Cotabato (Plus Code: 23FP+J3 Kidapawan, Cotabato)';
+            const msg = $('copyMsg');
+            try {
+                await navigator.clipboard.writeText(text);
+                msg.textContent = 'Address copied.';
+            } catch (err) {
+                // Kapag hindi gumana ang clipboard API, gumamit ng lumang paraan
+                const t = document.createElement('textarea');
+                t.value = text; document.body.appendChild(t); t.select();
+                try { document.execCommand('copy'); msg.textContent = 'Address copied.'; }
+                catch (e2) { msg.textContent = 'Copy failed. Select the address and copy it manually.'; }
+                document.body.removeChild(t);
+            }
+            setTimeout(() => (msg.textContent = ''), 2500); // alisin ang mensahe pagkatapos ng 2.5 segundo
+        });
+    </script>
+</body>
+
+</html>
