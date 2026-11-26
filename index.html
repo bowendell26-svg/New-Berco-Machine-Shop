@@ -315,19 +315,28 @@
         </section>
 
         <!-- ===== CAPABILITIES / WORKSHOP SHOWCASE ===== -->
+        <!-- Buong section ng shop capabilities -->
         <section id="capabilities" class="bg-gun-900 text-white py-16 md:py-20 scroll-mt-16">
+            <!-- Lalagyan na naka-center at may max width -->
             <div class="max-w-6xl mx-auto px-4">
+                <!-- Pamagat ng section -->
                 <h2 class="font-head font-bold text-3xl md:text-4xl">Shop capabilities</h2>
+                <!-- Maikling paliwanag sa ilalim ng pamagat -->
                 <p class="mt-2 text-slate-400 max-w-2xl">The machines and skills behind every job.</p>
 
-                <!-- Apat na frame; palitan ang loob ng <img> kapag may totoong litrato na -->
+                <!-- Grid ng apat na frame: 1 column sa phone, 2 columns sa mas malaking screen -->
                 <div class="mt-10 grid sm:grid-cols-2 gap-5">
 
+                    <!-- Frame 1: Lathe -->
                     <figure tabindex="0" class="cap bg-gun-700 border border-slate-700/70 rounded-lg overflow-hidden">
-                        <!-- Placeholder na larawan: ilagay dito ang <img src="lathe.jpg" class="w-full h-full object-cover"> -->
-                        <div
-                            class="cap-img plate h-48 bg-gun-800 flex items-center justify-center text-slate-500 text-sm">
-                            Photo of lathe to be added</div>
+                        <!-- Wrapper ng larawan; overflow-hidden para hindi lumampas ang litrato -->
+                        <div class="cap-img plate h-48 bg-gun-800 overflow-hidden">
+                            <!-- Litrato ng lathe; object-cover para pumuno sa frame nang hindi nababanat -->
+                            <img src="/static/images/lathe.webp"
+                                alt="CNC lathe turning a steel shaft with finished bushings nearby" loading="lazy"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <!-- Caption sa ilalim ng litrato -->
                         <figcaption class="p-5">
                             <h3 class="font-head font-semibold text-xl text-amber-500">Lathe &amp; Turning</h3>
                             <p class="mt-1 text-sm text-slate-300">Shafts, pins, pulleys, and sleeves turned to size
@@ -337,11 +346,16 @@
                         </figcaption>
                     </figure>
 
+                    <!-- Frame 2: Milling at Boring -->
                     <figure tabindex="0" class="cap bg-gun-700 border border-slate-700/70 rounded-lg overflow-hidden">
-                        <!-- Placeholder para sa milling at boring machine -->
-                        <div
-                            class="cap-img plate h-48 bg-gun-800 flex items-center justify-center text-slate-500 text-sm">
-                            Photo of milling and boring setup to be added</div>
+                        <!-- Wrapper ng larawan -->
+                        <div class="cap-img plate h-48 bg-gun-800 overflow-hidden">
+                            <!-- Litrato ng engine block; object-center para kita ang mga cylinder bore -->
+                            <img src="/static/images/milling-boring.png"
+                                alt="Engine block with machined cylinder bores on a stand" loading="lazy"
+                                class="w-full h-full object-cover object-center">
+                        </div>
+                        <!-- Caption -->
                         <figcaption class="p-5">
                             <h3 class="font-head font-semibold text-xl text-amber-500">Milling &amp; Boring</h3>
                             <p class="mt-1 text-sm text-slate-300">Flat faces, keyways, slots, and accurate bores on
@@ -351,11 +365,16 @@
                         </figcaption>
                     </figure>
 
+                    <!-- Frame 3: Surface Grinding -->
                     <figure tabindex="0" class="cap bg-gun-700 border border-slate-700/70 rounded-lg overflow-hidden">
-                        <!-- Placeholder para sa surface grinder -->
-                        <div
-                            class="cap-img plate h-48 bg-gun-800 flex items-center justify-center text-slate-500 text-sm">
-                            Photo of surface grinder to be added</div>
+                        <!-- Wrapper ng larawan -->
+                        <div class="cap-img plate h-48 bg-gun-800 overflow-hidden">
+                            <!-- Litrato ng surface grinder habang nagpo-polish ng steel plate -->
+                            <img src="/static/images/surface-grinder.webp"
+                                alt="Surface grinder finishing a steel plate with coolant" loading="lazy"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <!-- Caption -->
                         <figcaption class="p-5">
                             <h3 class="font-head font-semibold text-xl text-amber-500">Surface Grinding</h3>
                             <p class="mt-1 text-sm text-slate-300">Fine finishing for flatness and parallelism on heads,
@@ -365,11 +384,15 @@
                         </figcaption>
                     </figure>
 
+                    <!-- Frame 4: Fabrication at Welding -->
                     <figure tabindex="0" class="cap bg-gun-700 border border-slate-700/70 rounded-lg overflow-hidden">
-                        <!-- Placeholder para sa welding bay -->
-                        <div
-                            class="cap-img plate h-48 bg-gun-800 flex items-center justify-center text-slate-500 text-sm">
-                            Photo of welding bay to be added</div>
+                        <!-- Wrapper ng larawan -->
+                        <div class="cap-img plate h-48 bg-gun-800 overflow-hidden">
+                            <!-- Litrato ng welder; object-top para hindi maputol ang ulo at helmet -->
+                            <img src="/static/images/welding.webp" alt="Welder fabricating a steel frame in the shop"
+                                loading="lazy" class="w-full h-full object-cover object-top">
+                        </div>
+                        <!-- Caption -->
                         <figcaption class="p-5">
                             <h3 class="font-head font-semibold text-xl text-amber-500">Fabrication &amp; Welding</h3>
                             <p class="mt-1 text-sm text-slate-300">Repairs and custom builds in steel, from small
@@ -455,8 +478,10 @@
                         <!-- Preview ng napiling larawan, may filename at remove button -->
                         <div id="preview"
                             class="hidden mt-3 flex items-center gap-3 border border-slate-200 rounded p-2">
-                            <img id="previewImg" alt="Selected part photo preview"
-                                class="w-20 h-20 object-cover rounded" />
+                            <a id="previewLink" target="_blank" rel="noopener" aria-label="Open selected part photo">
+                                <img id="previewImg" alt="Selected part photo preview"
+                                    class="w-20 h-20 object-cover rounded" />
+                            </a>
                             <span id="previewName" class="flex-1 text-sm text-slate-700 break-all"></span>
                             <button type="button" id="removePhoto"
                                 class="text-sm font-medium text-red-600 hover:underline px-2">Remove</button>
@@ -487,7 +512,14 @@
                         <dt class="text-slate-500">Notes</dt>
                         <dd id="sNotes" class="text-slate-800 whitespace-pre-line"></dd>
                         <dt class="text-slate-500">Photo</dt>
-                        <dd id="sPhoto" class="text-slate-800"></dd>
+                        <dd class="text-slate-800">
+                            <span id="sPhoto">No photo attached</span>
+                            <a id="sPhotoLink" class="hidden mt-2 block" target="_blank" rel="noopener"
+                                aria-label="Open uploaded part photo">
+                                <img id="sPhotoImg" alt="Uploaded part photo"
+                                    class="w-32 h-32 object-cover rounded border border-slate-200" />
+                            </a>
+                        </dd>
                     </dl>
                     <!-- Paalala para sa customer kung kailangan ng mabilis na sagot -->
                     <p class="mt-4 text-sm text-slate-600">Need a faster answer? Call <a
@@ -596,13 +628,17 @@
         );
 
         // --- Photo upload: preview, filename, at remove ---
-        const photo = $('photo'), preview = $('preview'), previewImg = $('previewImg'), photoErr = $('photoErr');
+        const photo = $('photo'), preview = $('preview'), previewImg = $('previewImg');
+        const previewLink = $('previewLink'), photoErr = $('photoErr');
+        const summaryPhotoLink = $('sPhotoLink'), summaryPhotoImg = $('sPhotoImg');
         const MAX_MB = 8; // pinakamalaking laki ng larawan; palitan kung kailangan
+        let summaryPhotoUrl = null;
 
         function clearPhoto() {
             if (previewImg.src.startsWith('blob:')) URL.revokeObjectURL(previewImg.src); // linisin ang memory
             photo.value = '';
             previewImg.removeAttribute('src');
+            previewLink.removeAttribute('href');
             preview.classList.add('hidden');
             photoErr.classList.add('hidden');
         }
@@ -615,6 +651,7 @@
             if (file.size > MAX_MB * 1024 * 1024) { clearPhoto(); photoErr.textContent = 'Photo is larger than ' + MAX_MB + ' MB. Choose a smaller one.'; photoErr.classList.remove('hidden'); return; }
             photoErr.classList.add('hidden');
             previewImg.src = URL.createObjectURL(file);
+            previewLink.href = previewImg.src;
             $('previewName').textContent = file.name + ' (' + Math.round(file.size / 1024) + ' KB)';
             preview.classList.remove('hidden');
         });
@@ -643,6 +680,8 @@
             });
             if (firstBad) { firstBad.focus(); $('summary').classList.add('hidden'); return; }
 
+            $('summary').classList.add('hidden');
+
             // Buuin ang data na ipapadala sa Flask; kasama ang larawan kung meron
             const data = new FormData();
             data.append('name', $('name').value.trim());
@@ -667,7 +706,20 @@
                 $('sContact').textContent = $('contact').value.trim();
                 $('sService').textContent = $('service').value;
                 $('sNotes').textContent = $('notes').value.trim();
-                $('sPhoto').textContent = photo.files[0] ? photo.files[0].name : 'No photo attached';
+                if (summaryPhotoUrl) URL.revokeObjectURL(summaryPhotoUrl);
+                if (photo.files[0]) {
+                    summaryPhotoUrl = URL.createObjectURL(photo.files[0]);
+                    $('sPhoto').textContent = photo.files[0].name;
+                    summaryPhotoImg.src = summaryPhotoUrl;
+                    summaryPhotoLink.href = summaryPhotoUrl;
+                    summaryPhotoLink.classList.remove('hidden');
+                } else {
+                    summaryPhotoUrl = null;
+                    summaryPhotoImg.removeAttribute('src');
+                    summaryPhotoLink.removeAttribute('href');
+                    summaryPhotoLink.classList.add('hidden');
+                    $('sPhoto').textContent = 'No photo attached';
+                }
                 $('summary').classList.remove('hidden');
                 $('summary').scrollIntoView({ behavior: 'smooth', block: 'center' });
 
